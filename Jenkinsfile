@@ -14,7 +14,7 @@ pipeline {
 
   stage ('Build Docker Image') {
     steps {
-      scripts {
+      script {
         sh """
             docker build -t ${IMAGE_NAME}:latest .
           """
@@ -23,7 +23,7 @@ pipeline {
   }
   stage ('Push to Docker Hub') {
     steps {
-      scripts {
+      script {
           docker.withRegistry('', 'dockerhub') {
             sh "docker push ${IMAGE_NAME}:latest"
           }
