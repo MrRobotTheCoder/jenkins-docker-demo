@@ -25,9 +25,7 @@ pipeline {
     steps {
       scripts {
           docker.withRegistry('', 'dockerhub') {
-            sh """
-                docker push ${IMAGE_NAME}:latest
-            """
+            sh "docker push ${IMAGE_NAME}:latest"
           }
         }
       }
