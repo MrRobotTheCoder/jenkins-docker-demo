@@ -33,7 +33,7 @@ pipeline {
     steps {
       sh """
         kubectl apply -f k8s/
-        kubectl roolout status deployment/jenkins-demo -n demo
+        kubectl rollout status deployment/jenkins-demo -n demo
       """
       }
     }
