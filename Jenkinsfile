@@ -3,6 +3,7 @@ pipeline {
 
   environment {
     IMAGE_NAME = "mrrobotthecoder/jenkins-demo"
+    KUBECONFIG = "/var/lib/jenkins/.kube/config"
   }
 
   stages {
@@ -14,13 +15,10 @@ pipeline {
 
   stage ('Build Docker Image') {
     steps {
-      script {
-        sh """
-            docker build -t ${IMAGE_NAME}:latest .
-          """
-      }
+      sh "docker build -t ${IMAGE_NAME}:latest . "
     }
   }
+    
   stage ('Push to Docker Hub') {
     steps {
       script {
@@ -30,5 +28,14 @@ pipeline {
         }
       }
     }
-  }
-}  
+  
+  stage('Deploy to Kubernetes') {
+    steps {
+      sh """
+        kubectl apply -f k8s/
+        kubectl roolout status deployment/jenkins-demo -n demo
+      """
+      }
+    }
+  }  
+}
