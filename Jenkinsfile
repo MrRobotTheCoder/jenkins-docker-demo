@@ -16,11 +16,11 @@ pipeline {
   stage ('Determine Version') {
     steps {
       script {
-        if (!params.RELEASE_TAG) {
-          error("RELEASE_TAG parameter is required")
-        }
-        env.VERSION = params.RELEASE_TAG.replaceFirst('v', '')
-        echo "Building version: ${env.VERSION}"
+        if (!env.GIT_TAG) {
+                error("This pipeline must be triggered by a Git tag")
+            }
+            env.VERSION = env.GIT_TAG.replaceFirst('v', '')
+            echo "Building version: ${env.VERSION}"
       }
     }
   }
